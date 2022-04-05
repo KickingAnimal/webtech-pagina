@@ -5,11 +5,7 @@ from database import *
 bcrypt = Bcrypt()
 app = Flask(__name__)
 
-# Set the secret key (needed for session)
-# Normally this would generate a random key like this:
-# >>> import os
-# >>> os.urandom(24)
-# But I'm using a fixed key for this example
+
 
 app.secret_key = "secret"
 
