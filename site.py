@@ -30,13 +30,13 @@ def login_user():
     # Check if the username exists
     user_id = do_database(f"SELECT COUNT(id) FROM users WHERE username = '{username}'")
     if user_id[0][0] == 0:
-        return render_template('login.html', message="Username does not exist")
+        return render_template('login.html')#, message="Username does not exist")
     
     # Check if the password is correct
     user_password = do_database(f"SELECT password FROM users WHERE username = '{username}'")
     if not bcrypt.check_password_hash(user_password[0][0], password):
-        return render_template('login.html', message="Password is incorrect")
-    
+        return render_template('login.html') #, message="Password is incorrect")
+
     # If the username and password are correct, log the user in and set the session
     session['username'] = username
 
@@ -49,7 +49,7 @@ def logout():
     if 'username' in session:
         # Remove the username from the session
         session.pop('username', None)
-    return redirect('/login')
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)
