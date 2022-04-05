@@ -15,11 +15,13 @@ app.secret_key = "secret"
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    if session['username'] ==None:
+        username = "niks"
+    return render_template('home.html', loggedInUser=session['username'])
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login.html', pwLabelKleur="black", uLabelKleur="black")
 
 @app.route('/app/login', methods=['POST'])
 def login_user():
@@ -30,12 +32,12 @@ def login_user():
     # Check if the username exists
     user_id = do_database(f"SELECT COUNT(id) FROM users WHERE username = '{username}'")
     if user_id[0][0] == 0:
-        return render_template('login.html')#, message="Username does not exist")
+        return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
     
     # Check if the password is correct
     user_password = do_database(f"SELECT password FROM users WHERE username = '{username}'")
     if not bcrypt.check_password_hash(user_password[0][0], password):
-        return render_template('login.html') #, message="Password is incorrect")
+        return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
 
     # If the username and password are correct, log the user in and set the session
     session['username'] = username
@@ -43,7 +45,7 @@ def login_user():
     # Return user to home page
     return redirect('/')
 
-app.route('/logout')
+@app.route('/logout')
 def logout():
     # Check if the user is logged in
     if 'username' in session:
