@@ -13,6 +13,10 @@ app = Flask(__name__)
 
 app.secret_key = "secret"
 
+@app.route('/')
+def home():
+    return render_template('home.html')
+
 @app.route('/login')
 def login():
     return render_template('login.html')
@@ -38,6 +42,14 @@ def login_user():
 
     # Return user to home page
     return redirect('/')
+
+app.route('/logout')
+def logout():
+    # Check if the user is logged in
+    if 'username' in session:
+        # Remove the username from the session
+        session.pop('username', None)
+    return redirect('/login')
 
 if __name__ == '__main__':
     app.run(debug=True)
