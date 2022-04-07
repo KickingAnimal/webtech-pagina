@@ -13,9 +13,10 @@ app = Flask(__name__)
 
 app.secret_key = "secret"
 
+
 @app.route('/')
 def home():
-    if len(session['username']) > 0 :
+    if 'username' in session:
         return render_template('home.html', loggedInUser=session['username'])
     else:
         return render_template('home.html', loggedInUser="niet ingelogd")
