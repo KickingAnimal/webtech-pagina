@@ -6,16 +6,22 @@
 
 <!-- simple login page -->
 
-<form action="/app/login" method="post">
-    <div class="form-group">
-        <label for="username" style="color: {{uLabelKleur}};">Username {{uMessage}}</label>
+
+<main class="form-signin">
+    <form action="/app/login" method="post">
+      <img class="mb-4" src="../static/media/stage-gert.jpeg" alt="" width="72" height="57">
+      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+  
+      <div class="form-floating">
         <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <label for="password" style="color: {{pwLabelKleur}};">Password {{pwMessage}}</label>
+        <label for="username" style="color: {{uLabelKleur}};">Username {{uMessage}}</label>
+      </div>
+      <div class="form-floating">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-default">Submit</button>
-</form>
+        <label for="password" style="color: {{pwLabelKleur}};">Password {{pwMessage}}</label>
+      </div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+    </form>
+  </main>
 
 {% endblock %}
