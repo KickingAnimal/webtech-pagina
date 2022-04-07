@@ -15,9 +15,10 @@ app.secret_key = "secret"
 
 @app.route('/')
 def home():
-    if session['username'] ==None:
-        username = "niks"
-    return render_template('home.html', loggedInUser=session['username'])
+    if len(session['username']) > 0 :
+        return render_template('home.html', loggedInUser=session['username'])
+    else:
+        return render_template('home.html', loggedInUser="niet ingelogd")
 
 @app.route('/login')
 def login():
