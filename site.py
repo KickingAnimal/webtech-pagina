@@ -55,5 +55,32 @@ def logout():
         session.pop('username', None)
     return redirect('/')
 
+@app.route('/register')
+def register():
+    return render_template('register.html', uLabelKleur="black")
+
+@app.route('/app/register', methods=['POST'])
+def register_user():
+    # Get the form data
+    username = request.form['username']
+    password = request.form['password']
+
+    # Check if the username already exists
+    user_id = do_database(f"SELECT COUNT(id) FROM users WHERE username = '{username}'")
+    if user_id[0][0] != 0:
+        return render_template('register.html', uMessage=" already exists", uLabelKleur="red")
+
+    # Hash the password
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    # Add the user to the database
+    do_database(f"INSERT INTO users (username, password) VALUES ('{username}', '{hashed_password}')")
+
+    # Log the user in
+    session['username'] = username
+
+    # Redirect to the home page
+    return redirect('/')
+
 if __name__ == '__main__':
     app.run(debug=True)
