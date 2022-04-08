@@ -4,20 +4,20 @@
 
 <main class="form-signin">
     <form action="/app/register" method="post">
-      <img class="mb-4" src="../static/media/stage-gert.jpeg" alt="" width="72" height="57">
+      <img class="mb-4" src="../static/media/stage-gert.jpeg" alt="" width="250">
       <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
   
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="text" class="form-control" id="username" name="username" placeholder="Username">
         <label for="username" style="color: {{uLabelKleur}};">Username {{uMessage}}</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-        <label for="password" style="color: {{pwLabelKleur}};">Password {{pwMessage}}</label>
+        <label for="password">Password</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="password" class="form-control" id="password2" name="password2" placeholder="Repeat Password">
-        <label for="password2" style="color: {{pwLabelKleur}};">Repeat Password {{pwMessage}}</label>           
+        <label for="password2">Repeat Password</label>           
       </div>
       <button class="w-100 btn btn-lg btn-primary" type="submit">sign up</button>
     </form>
