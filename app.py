@@ -16,8 +16,8 @@ app.secret_key = "secret"
 
 @app.route('/')
 def home():
-    if 'username' in session:
-        return render_template('home.html', loggedInUser=session['username'])
+    if 'voornaam' in session:
+        return render_template('home.html', loggedInUser=session['voornaam'])
     else:
         return render_template('home.html', loggedInUser="niet ingelogd")
 
@@ -28,21 +28,27 @@ def login():
 @app.route('/app/login', methods=['POST'])
 def login_user():
     # Get the form data
-    username = request.form['username']
+    voornaam = request.form['voornaam']
+    achternaam = request.form['achternaam']
     password = request.form['password']
 
     # Check if the username exists
-    user_id = do_database(f"SELECT COUNT(id) FROM users WHERE username = '{username}'")
+    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE voornaam = '{voornaam}'")
     if user_id[0][0] == 0:
         return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
     
+    # Check if the username exists
+    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE achternaam = '{achternaam}'")
+    if user_id[0][0] == 0:
+        return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
+
     # Check if the password is correct
-    user_password = do_database(f"SELECT password FROM users WHERE username = '{username}'")
+    user_password = do_database(f"SELECT password FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
     if not bcrypt.check_password_hash(user_password[0][0], password):
         return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
 
     # If the username and password are correct, log the user in and set the session
-    session['username'] = username
+    session['voornaam'] = voornaam
 
     # Return user to home page
     return redirect('/')
@@ -50,9 +56,9 @@ def login_user():
 @app.route('/logout')
 def logout():
     # Check if the user is logged in
-    if 'username' in session:
+    if 'voornaam' in session:
         # Remove the username from the session
-        session.pop('username', None)
+        session.pop('voornaam', None)
     return redirect('/')
 
 @app.route('/register')
@@ -62,22 +68,29 @@ def register():
 @app.route('/app/register', methods=['POST'])
 def register_user():
     # Get the form data
-    username = request.form['username']
+    student_ID = request.form['student_ID']
+    voornaam = request.form['voornaam']
+    achternaam = request.form['achternaam']
     password = request.form['password']
 
-    # Check if the username already exists
-    user_id = do_database(f"SELECT COUNT(id) FROM users WHERE username = '{username}'")
+    # Check if the first name already exists
+    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE voornaam = '{voornaam}'")
     if user_id[0][0] != 0:
         return render_template('register.html', uMessage=" already exists", uLabelKleur="red")
 
+    # Check if the last name already exists
+    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE achternaam = '{achternaam}'")
+    if user_id[0][0] != 0:
+        return render_template('register.html', uMessage=" already exists", uLabelKleur="red")
+    
     # Hash the password
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
     # Add the user to the database
-    do_database(f"INSERT INTO users (username, password) VALUES ('{username}', '{hashed_password}')")
+    do_database(f"INSERT INTO student (voornaam, achternaam, password, student_ID) VALUES ('{voornaam}','{achternaam}' '{hashed_password}' '{student_ID}')")
 
     # Log the user in
-    session['username'] = username
+    session['voornaam'] = voornaam
 
     # Redirect to the home page
     return redirect('/')
