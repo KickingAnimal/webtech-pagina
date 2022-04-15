@@ -83,11 +83,19 @@ def register_user():
     if user_id[0][0] != 0:
         return render_template('register.html', uMessage=" already exists", uLabelKleur="red")
     
-    # Hash the password
-    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+    student_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE student_ID = '{student_ID}'")
+    if student_id[0][0] != 0:
+        return render_template('register.html', uMessage=" already exists", uLabelKleur="red")
+    
+    # check password not empty and hash the password
+    if len(password) == 0:
+        return render_template('register.html', pMessage=" must not be empty", pLabelKleur="red")
+    else:
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
+    print(student_ID,voornaam,achternaam,hashed_password,password)
     # Add the user to the database
-    do_database(f"INSERT INTO student (voornaam, achternaam, password, student_ID) VALUES ('{voornaam}','{achternaam}' '{hashed_password}' '{student_ID}')")
+    do_database(f"INSERT INTO student (student_ID, voornaam, achternaam, password) VALUES ('{student_ID}','{voornaam}','{achternaam}','{hashed_password}')")
 
     # Log the user in
     session['voornaam'] = voornaam
