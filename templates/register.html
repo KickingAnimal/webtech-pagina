@@ -5,18 +5,26 @@
 <main class="form-signin">
     <form action="/app/register" method="post">
       <h1 class="h3 mb-3 fw-normal">Please sign up</h1>
-  
+      
       <div class="form-floating form-group">
-        <input type="text" class="form-control" id="username" name="username" placeholder="Username">
-        <label for="username" style="color: {{uLabelKleur}};">Username {{uMessage}}</label>
+        <input type="text" class="form-control" id="student_ID" name="student_ID" placeholder="Studenten nummer">
+        <label for="student_ID" style="color: black;">Studenten nummer</label>
+      </div>
+      <div class="form-floating form-group">
+        <input type="text" class="form-control" id="voornaam" name="voornaam" placeholder="Voornaam">
+        <label for="voornaam" style="color: {{uLabelKleur}};">Voornaam {{uMessage}}</label>
+      </div>
+      <div class="form-floating form-group">
+        <input type="text" class="form-control" id="achternaam" name="achternaam" placeholder="Achternaam">
+        <label for="achternaam" style="color: {{uLabelKleur}};">Achternaam {{uMessage}}</label>
       </div>
       <div class="form-floating form-group">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-        <label for="password">Password</label>
+        <label for="password" style="color: {{pLabelKleur}};">Password {{pMessage}}</label>
       </div>
       <div class="form-floating form-group">
         <input type="password" class="form-control" id="password2" name="password2" placeholder="Repeat Password">
-        <label for="password2">Repeat Password</label>           
+        <label for="password2" style="color: {{pLabelKleur}};">Repeat Password {{pMessage}}</label>           
       </div>
       <button type="submit" class="w-100 btn btn-outline-dark ">Sign up</button>
     </form>
