@@ -4,9 +4,8 @@
 
 <main class="form-signin">
     <form action="/app/login" method="post">
-      <img class="mb-4" src="../static/media/stage-gert.jpeg" alt="" width="72" height="57">
-      <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-  
+      <h1 class="h3 mb-3 fw-normal">Please Login</h1>
+      
       <div class="form-floating">
         <input type="text" class="form-control" id="voornaam" name="voornaam" placeholder="Voornaam">
         <label for="voornaam" style="color: {{uLabelKleur}};">Voornaam {{uMessage}}</label>
@@ -15,11 +14,13 @@
         <input type="text" class="form-control" id="achternaam" name="achternaam" placeholder="Achternaam">
         <label for="achternaam" style="color: {{uLabelKleur}};">Achternaam {{uMessage}}</label>
       </div>
-      <div class="form-floating">
+      <div class="form-floating form-group">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         <label for="password" style="color: {{pwLabelKleur}};">Password {{pwMessage}}</label>
       </div>
-      <button class="w-100 btn btn-lg btn-primary" type="submit">sign in</button>
+      <button type="submit" class="w-100 btn btn-outline-dark" data-toggle="button" aria-pressed="false" autocomplete="off">
+        Login
+      </button>
     </form>
   </main>
 
