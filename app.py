@@ -17,9 +17,9 @@ app.secret_key = "secret"
 @app.route('/')
 def home():
     if 'voornaam' in session:
-        return render_template('home.html', loggedInUser=session['voornaam'])
+        return render_template('home.html', loggedInUser=session['voornaam'], loggedIn=True)
     else:
-        return render_template('home.html', loggedInUser="niet ingelogd")
+        return render_template('home.html', loggedInUser="niet ingelogd", loggedIn=False)
 
 @app.route('/login')
 def login():
