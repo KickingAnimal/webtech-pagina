@@ -109,7 +109,7 @@ def register_user():
     # Redirect to the home page
     return redirect('/')
 
-@app.route('/stage-gegevens')
+@app.route('/stageGegevens')
 def stage_gegevens():
     if 'voornaam' in session:
         loggedIn=True
