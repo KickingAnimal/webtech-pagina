@@ -122,5 +122,9 @@ def stage_gegevens():
     elif loggedIn!=True:
         return render_template('nietIngelogd.html')
 
+@app.route('/stages')
+def stages():
+    return render_template('stages.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
