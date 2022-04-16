@@ -109,5 +109,18 @@ def register_user():
     # Redirect to the home page
     return redirect('/')
 
+@app.route('/stage-gegevens')
+def stage_gegevens():
+    if 'voornaam' in session:
+        loggedIn=True
+        loggedInUser=session['voornaam']
+    else:
+        loggedIn=False
+        loggedInUser="niet ingelogd"
+    if loggedIn:
+        return render_template('stageGegevens.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
+    elif loggedIn!=True:
+        return render_template('nietIngelogd.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
