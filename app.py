@@ -75,6 +75,7 @@ def register_user():
     voornaam = request.form['voornaam']
     achternaam = request.form['achternaam']
     password = request.form['password']
+    password2 = request.form['password2']
 
     # Check if the first name already exists
     user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE voornaam = '{voornaam}'")
@@ -93,6 +94,8 @@ def register_user():
     # check password not empty and hash the password
     if len(password) == 0:
         return render_template('register.html', pMessage=" must not be empty", pLabelKleur="red")
+    elif password != password2:
+        return render_template('register.html', pMessage=" is not the same", pLabelKleur="red")
     else:
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
