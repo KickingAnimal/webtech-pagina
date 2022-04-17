@@ -152,6 +152,7 @@ def stages():
     else:
         loggedIn=False
         loggedInUser="niet ingelogd"
+        
     stageInfo = do_database(f"SELECT si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
     aantalStage = len(stageInfo)
     return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
