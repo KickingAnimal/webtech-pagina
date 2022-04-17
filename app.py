@@ -49,11 +49,11 @@ def login_user():
             return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
 
         student_ID = do_database(f"SELECT student_ID FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
-
         # Check if the password is correct
         user_password = do_database(f"SELECT password FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
         if not bcrypt.check_password_hash(user_password[0][0], password):
             return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
+        session['student_ID'] = student_ID
     else:
         # Check if the username exists
         user_id = do_database(f"SELECT COUNT(ID) FROM begleider WHERE voornaam = '{voornaam}'")
@@ -73,13 +73,12 @@ def login_user():
     # If the username and password are correct, log the user in and set the session
     session['voornaam'] = voornaam
     session['achternaam'] = achternaam
-    session['student_ID'] = student_ID
     session['begleider'] = begleider
     print(session['voornaam'], session['begleider'])
 
     # Return user to home page
     return redirect('/')
-
+    
 @app.route('/logout')
 def logout():
     # Check if the user is logged in
@@ -167,6 +166,23 @@ def stages():
     stageInfo = do_database(f"SELECT si.ID, si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
     aantalStage = len(stageInfo)
     return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
+
+@app.route('/stage/edit')
+def stage_edit():
+    if 'begleider' in session:
+        loggedIn=True
+        loggedInUser=session['begleider']
+    else:
+        loggedIn=False
+        loggedInUser="Geen begeleider"
+
+    if loggedIn:
+        stageInfo = do_database(f"SELECT si.ID, si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
+        aantalStage = len(stageInfo)
+        return render_template('edit.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
+
+    elif loggedIn!=True:
+        return render_template('nietIngelogd.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
