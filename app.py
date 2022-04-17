@@ -129,8 +129,7 @@ def stages():
         loggedInUser=session['voornaam']
     else:
         loggedIn=False
-        loggedInUser="niet ingelogd"
-    
+        loggedInUser="niet ingelogd"  
     return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
 
 if __name__ == '__main__':
