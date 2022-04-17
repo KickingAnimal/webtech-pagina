@@ -14,31 +14,31 @@
                     <div class="profile-details" style="padding-left: 150px">
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label"><strong><h4>Voornaam</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{voornaam}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{session['voornaam']}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label"><strong><h4>Achternaam</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{achternaam}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{session['achternaam']}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label"><strong><h4>Instelling</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{instelling}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{stageGegevens[0][0]}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
-                            <div class="col-sm-2 profile-label"><strong><h4>Soort instelling</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{soortInstelling}}</h4></div>
+                            <div class="col-sm-2 profile-label"><strong><h4>Soort&nbsp;instelling</strong></h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{stageGegevens[0][1]}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label"><strong><h4>Begeleider</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{voorBegeleider}} {{achterBegleider}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{stageGegevens[0][2]}} {{stageGegevens[0][3]}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label"><strong><h4>Cijfer</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{cijfer}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{stageGegevens[0][4]}}</h4></div>
                         </div>
                         <div class="row cf cf-right">
                             <div class="col-sm-2 profile-label" ><strong><h4>Periode</strong></h4></div>
-                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{periode}}</h4></div>
+                            <div class="col-sm-10" style="padding-bottom: 10px;"><h4>{{stageGegevens[0][5]}}</h4></div>
                         </div>
                     </div>                      
                 </div>

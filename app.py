@@ -147,10 +147,27 @@ def stage_gegevens():
     else:
         loggedIn=False
         loggedInUser="niet ingelogd"
+    if session['begleider']:
+        begleider = True
+    else:
+        begleider = False
 
-    if loggedIn:
-        do_database(f"SELECT * FROM stage voornaam = 'session['voornaam']' AND achternaam = 'session['achternaam']'")
-        return render_template('stageGegevens.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
+    if loggedIn and begleider != True:
+        student_ID = session['student_ID'][0][0]
+        stageGegevens = do_database(f"SELECT ins.instellingNaam, ins.instellingType, beg.voornaam, beg.achternaam, st.cijfer, st.periode FROM stage AS st JOIN instelling AS ins ON st.instelling_ID = ins.ID JOIN begleider AS beg ON st.begleider_ID = beg.ID WHERE student_ID = '{student_ID}'")
+        for i in range(0, len(stageGegevens)):
+            for j in range(0, len(stageGegevens[i])):
+                if stageGegevens[i][j] == " " or stageGegevens[i][j] == "" or stageGegevens[i][j] == "NULL":
+                    y = list(stageGegevens[i])
+                    y[j] = "geen info"
+                    stageGegevens[i] = tuple(y)
+        if stageGegevens == []:
+            stageGegevens = [('geen stage info', '')]
+        return render_template('stageGegevens.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageGegevens=stageGegevens)
+    elif begleider:
+        stageGegevens = [('geen stage info voor een begleider', '')]
+        return render_template('stageGegevens.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageGegevens=stageGegevens)
+        pass
     elif loggedIn!=True:
         return render_template('nietIngelogd.html')
 
@@ -162,10 +179,18 @@ def stages():
     else:
         loggedIn=False
         loggedInUser="niet ingelogd"
-        
-    stageInfo = do_database(f"SELECT si.ID, si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
+    
+    stageInfo = do_database(f"SELECT si.ID, ins.instellingType, ins.instellingNaam, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
     aantalStage = len(stageInfo)
-    return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
+    gegevens = []
+    allGegevens =[]
+    for i in range(0, len(stageInfo)):
+        (allGegevens.append(list(stageInfo[i])))
+        print(allGegevens, stageInfo[i], i)
+        for j in range(0, len(stageInfo[i])):
+            (gegevens.append(stageInfo[i][j]))
+            print(gegevens,"\n", stageInfo[i][j],"\n", i, j)
+    return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage, gegevens=gegevens)
 
 @app.route('/stage/edit')
 def stage_edit():
