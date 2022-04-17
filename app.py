@@ -48,6 +48,8 @@ def login_user():
         if user_id[0][0] == 0:
             return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
 
+        student_ID = do_database(f"SELECT student_ID FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
+
         # Check if the password is correct
         user_password = do_database(f"SELECT password FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
         if not bcrypt.check_password_hash(user_password[0][0], password):
@@ -70,6 +72,8 @@ def login_user():
 
     # If the username and password are correct, log the user in and set the session
     session['voornaam'] = voornaam
+    session['achternaam'] = achternaam
+    session['student_ID'] = student_ID
     session['begleider'] = begleider
     print(session['voornaam'], session['begleider'])
 
@@ -82,6 +86,10 @@ def logout():
     if 'voornaam' in session:
         # Remove the username from the session
         session.pop('voornaam', None)
+    if 'achternaam' in session:
+        session.pop('achternaam', None)
+    if 'student_ID' in session:
+        session.pop('student_ID', None)
     if 'begleider' in session:
         session.pop('begleider', None)
     return redirect('/')
@@ -121,12 +129,13 @@ def register_user():
     else:
         hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    print(student_ID,voornaam,achternaam,hashed_password,password)
     # Add the user to the database
     do_database(f"INSERT INTO student (student_ID, voornaam, achternaam, password) VALUES ('{student_ID}','{voornaam}','{achternaam}','{hashed_password}')")
 
     # Log the user in
     session['voornaam'] = voornaam
+    session['achternaam'] = achternaam
+    session['student_ID'] = student_ID
 
     # Redirect to the home page
     return redirect('/')
@@ -139,7 +148,9 @@ def stage_gegevens():
     else:
         loggedIn=False
         loggedInUser="niet ingelogd"
+
     if loggedIn:
+        do_database(f"SELECT * FROM stage voornaam = 'session['voornaam']' AND achternaam = 'session['achternaam']'")
         return render_template('stageGegevens.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
     elif loggedIn!=True:
         return render_template('nietIngelogd.html')
@@ -153,7 +164,7 @@ def stages():
         loggedIn=False
         loggedInUser="niet ingelogd"
         
-    stageInfo = do_database(f"SELECT si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
+    stageInfo = do_database(f"SELECT si.ID, si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
     aantalStage = len(stageInfo)
     return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
 
