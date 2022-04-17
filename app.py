@@ -34,24 +34,44 @@ def login_user():
     voornaam = request.form['voornaam']
     achternaam = request.form['achternaam']
     password = request.form['password']
+    begleider = request.form.get('begleider')
+    if begleider == None:
+        begleider = False
+    if begleider == False:
+        # Check if the username exists
+        user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE voornaam = '{voornaam}'")
+        if user_id[0][0] == 0:
+            return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
 
-    # Check if the username exists
-    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE voornaam = '{voornaam}'")
-    if user_id[0][0] == 0:
-        return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
-    
-    # Check if the username exists
-    user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE achternaam = '{achternaam}'")
-    if user_id[0][0] == 0:
-        return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
+        # Check if the username exists
+        user_id = do_database(f"SELECT COUNT(student_ID) FROM student WHERE achternaam = '{achternaam}'")
+        if user_id[0][0] == 0:
+            return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
 
-    # Check if the password is correct
-    user_password = do_database(f"SELECT password FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
-    if not bcrypt.check_password_hash(user_password[0][0], password):
-        return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
+        # Check if the password is correct
+        user_password = do_database(f"SELECT password FROM student WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
+        if not bcrypt.check_password_hash(user_password[0][0], password):
+            return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
+    else:
+        # Check if the username exists
+        user_id = do_database(f"SELECT COUNT(ID) FROM begleider WHERE voornaam = '{voornaam}'")
+        if user_id[0][0] == 0:
+            return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
+
+        # Check if the username exists
+        user_id = do_database(f"SELECT COUNT(ID) FROM begleider WHERE achternaam = '{achternaam}'")
+        if user_id[0][0] == 0:
+            return render_template('login.html', uMessage=" does not exist", pwMessage=" is incorrect", uLabelKleur="red", pwLabelKleur="red")
+
+        # Check if the password is correct
+        user_password = do_database(f"SELECT password FROM begleider WHERE voornaam = '{voornaam}' AND achternaam = '{achternaam}'")
+        if not bcrypt.check_password_hash(user_password[0][0], password):
+            return render_template('login.html', pwMessage=" is incorrect", pwLabelKleur="red")
 
     # If the username and password are correct, log the user in and set the session
     session['voornaam'] = voornaam
+    session['begleider'] = begleider
+    print(session['voornaam'], session['begleider'])
 
     # Return user to home page
     return redirect('/')
@@ -62,6 +82,8 @@ def logout():
     if 'voornaam' in session:
         # Remove the username from the session
         session.pop('voornaam', None)
+    if 'begleider' in session:
+        session.pop('begleider', None)
     return redirect('/')
 
 @app.route('/register')
@@ -129,8 +151,10 @@ def stages():
         loggedInUser=session['voornaam']
     else:
         loggedIn=False
-        loggedInUser="niet ingelogd"  
-    return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
+        loggedInUser="niet ingelogd"
+    stageInfo = do_database(f"SELECT si.instelling_ID, ins.instellingType, ins.instellingNaam, si.begleider_ID, beg.voornaam, beg.achternaam,  si.omschrijving FROM stageInfo AS si JOIN instelling AS ins ON si.instelling_ID = ins.ID JOIN begleider AS beg ON si.begleider_ID = beg.ID")
+    aantalStage = len(stageInfo)
+    return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn, stageInfo=stageInfo, aantalStage=aantalStage)
 
 if __name__ == '__main__':
     app.run(debug=True)
