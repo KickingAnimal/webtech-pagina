@@ -124,7 +124,14 @@ def stage_gegevens():
 
 @app.route('/stages')
 def stages():
-    return render_template('stages.html')
+    if 'voornaam' in session:
+        loggedIn=True
+        loggedInUser=session['voornaam']
+    else:
+        loggedIn=False
+        loggedInUser="niet ingelogd"
+    
+    return render_template('stages.html', loggedInUser=loggedInUser, loggedIn=loggedIn)
 
 if __name__ == '__main__':
     app.run(debug=True)
