@@ -13,7 +13,7 @@
   <link rel="stylesheet" href="../static/css/signin.css">
   <!-- end bootstrap -->
 </head>
-<body class="text-center">
+<body class="text-center bg-light">
   <header class="p-3 bg-dark text-white">
     <div class="container">
       <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
@@ -22,13 +22,13 @@
         </a>
 
         <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-          <li><a href="/" class="nav-link px-2 text-secondary">Home</a></li>
+          <li><a href="/" class="nav-link px-2 text-white">Home</a></li>
           <li><a href="/stages" class="nav-link px-2 text-white">Stages</a></li>
-          <li><a href="/stageGegevens" class="nav-link px-2 text-white">Mijn stage gegevens</a></li>
+          <li><a href="/stageGegevens" class="nav-link px-2 text-white">Mijn gegevens</a></li>
         </ul>
 
         <div class="text-end">
-          {% if loggedIn%}
+          {% if session['voornaam'] %}
             <button type="button" class="btn btn-outline-light me-2" onclick="location.href='/logout'">Log uit</button>
           {% else %}
             <button type="button" class="btn btn-outline-light me-2" onclick="location.href='/login'">Login</button>
@@ -38,12 +38,14 @@
       </div>
     </div>
   </header>
-  <div class="container">
-    {% block content %}
-      {# site goes here #}
-    {% endblock %}
+  <div class="bg-light">
+    <div class="container" style="margin-bottom: 10%;">
+      {% block content %}
+        {# site goes here #}
+      {% endblock %}
+    </div>
   </div>
-  <div class="panel-body text-center">
+  <div class="panel-body text-center bg-light" style="position: fixed; bottom: 0; z-index: -999; width: 100%;">
     <footer class="py-3 my-4">
       <ul class="nav justify-content-center border-bottom pb-3 mb-3">
         <li class="nav-item"><a href="/" class="nav-link px-2 text-muted">Home</a></li>

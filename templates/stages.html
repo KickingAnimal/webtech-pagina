@@ -1,85 +1,32 @@
 {% extends "base.html" %}
 
 {% block content %}
-  
-<br>
-<div class="list-group">
-
-
-<a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
+<div class="list-group" style="padding-top: 5%;">
+  <p>{{ stageInfo }} </p>
+  <br>
+  <br>
+  <p>{{aantalStage}}</p>
+  <br>
+  <br>
+  {% for i in stageInfo %}
+    <!-- aantal stages, all data-->
+    <br>
+    {{i}}
+    {% for j in stageInfo[0] %}
+      <!-- data per stage-->
+      <br>
+      {{ j }}
+    {% endfor %}
+  {% endfor %}
+  <a href="/stageDetails?1" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
     <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
     <div class="d-flex gap-2 w-100 justify-content-center">
       <div>
-        <h3 class="mb-1">Programmeur</h3>
-        <p class="mb-1 opacity-75">Porttitor eget dolor morbi non. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Venenatis a condimentum vitae sapien pellentesque habitant morbi tristique senectus.</p>
+        <h3 class="mb-1">{{ stageInfo[0][0] }} -- {{stageInfo[2][1]}}</h3>
+        <p class="mb-1 opacity-75">{{stageInfo[3][6]}}</p>
       </div>
       <small class="opacity-50 text-nowrap"> </small>
     </div>
   </a>
-  
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-1">Marketing en communicatie</h3>
-        <p class="mb-1 opacity-75">Elementum pulvinar etiam non quam lacus suspendisse faucibus. Ac tincidunt vitae semper quis lectus nulla at. Lectus magna fringilla urna porttitor rhoncus. Orci eu lobortis elementum nibh tellus molestie.</p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-1">IT specialist</h3>
-        <p class="mb-1 opacity-75">Urna condimentum mattis pellentesque id nibh tortor id aliquet lectus. Adipiscing at in tellus integer feugiat scelerisque.</p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-0">Content marketing</h3>
-        <p class="mb-0 opacity-75">Ultricies tristique nulla aliquet enim tortor. Iaculis eu non diam phasellus vestibulum lorem. Posuere morbi leo urna molestie at elementum eu facilisis sed. </p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-0">Sales & marketing </h3>
-        <p class="mb-0 opacity-75">Sem et tortor consequat id porta. Nisl suscipit adipiscing bibendum est ultricies integer quis auctor. Imperdiet sed euismod nisi porta.</p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-0">accountmanager</h3>
-        <p class="mb-0 opacity-75">Viverra ipsum nunc aliquet bibendum enim facilisis gravida. Convallis a cras semper auctor. Vitae suscipit tellus mauris a diam maecenas.</p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-
-  <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3" aria-current="true">
-    <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
-    <div class="d-flex gap-2 w-100 justify-content-center">
-      <div>
-        <h3 class="mb-0">Devoloper engineer</h3>
-        <p class="mb-0 opacity-75">Dolor magna eget est lorem ipsum dolor. Nisl tincidunt eget nullam non nisi. Aliquam sem fringilla ut morbi tincidunt augue.</p>
-      </div>
-      <small class="opacity-50 text-nowrap"> </small>
-    </div>
-  </a>
-
-
+</div>
 {% endblock %}
